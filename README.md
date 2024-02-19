@@ -1,30 +1,34 @@
-# docker-python-cronjob
-Run python script as a cron job using Docker
-## Build Docker
-```
-docker build -t python-cron .
-```
-## Run docker container
-```
-docker run -it --rm python-cron
-```
-## Container console logs
-```
-hello world!
-Welcome to python cron job
-hello world!
-Welcome to python cron job
-hello world!
-```
+# Dockerized HP ILO Script
 
+This is a Dockerized version of a script designed to interact with HP Integrated Lights-Out (ILO) servers. The script automates tasks related to managing the power state of the server. It uses Python 3.10 along with some additional packages for logging, dotenv, and hpilo.
 
-### Run with modules
+## Usage
 
-If you are trying to run the script that required some module for instance numpy, you might face module not found error. 
+To use this Dockerized script, follow these steps:
 
-> Code is running Traceback (most recent call last): File "/app/main.py", line 3, in import numpy as np ImportError: No module named numpy 
+1. Make sure you have Docker installed on your system.
+2. Clone this repository.
+3. Navigate to the directory containing the Dockerfile and the script.
+4. Build the Docker image using the following command:
+   ```
+   docker build -t hp-ilo-script .
+   ```
+5. Once the image is built, you can run a container using the following command:
+   ```
+   docker run -d --name hp-ilo-container hp-ilo-script
+   ```
+   Replace `hp-ilo-container` with your desired container name.
 
-To resolve this, please look into [./cron-numpy/](https://github.com/Adiii717/docker-python-cronjob/tree/master/cron-numpy)
+## Configuration
 
-Inspired from this SO question
-https://stackoverflow.com/q/67531710/3288890
+Before running the container, ensure that you have configured the necessary environment variables. The script expects the following environment variables to be set:
+
+- `ILO_ADDRESS`: The IP address or hostname of the HP ILO server.
+- `ILO_USERNAME`: The username for accessing the HP ILO server.
+- `ILO_PASSWORD`: The password for accessing the HP ILO server.
+
+You can set these environment variables in a `.env` file in the root directory of the project.
+
+## Logging
+
+The script logs its activities to files located in the `logs` directory. Each log file has a maximum size of 10 MB, and a maximum of 5 backup files are kept.
